@@ -1,0 +1,10 @@
+*.eep
+*.elf
+*.hex
+*.autosave
+*.slxc
+*.mexw64
+*_rtw
+slprj
+*.asv
+*.original
