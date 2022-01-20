@@ -1,6 +1,6 @@
 clear
 clc
-ardPort = serialport("COM3" , 115200);
+ardPort = serialport("/dev/ttyACM0" , 115200);
 configureTerminator(ardPort, "CR/LF");
 ardPort.UserData = struct('time', [], 'reference', [], 'position', [], 'command', [], 'counter', 1);
 ardPort.flush();
@@ -14,7 +14,7 @@ pause(0.5)
 ardPort.write(135, "uint8");
 pause(2)
 ardPort.write(45, "uint8");
-pause(1)
+pause(2)
 configureCallback(ardPort , 'off')
 disp("data collection finished")
 disp("Turn the power off")
@@ -38,6 +38,7 @@ function ardCB(src, ~)
     src.UserData.time(end+1) = typecast(uint8(msg(1:4)) , 'single');
     src.UserData.reference(end + 1) = typecast(uint8(msg(5:8)), 'single');
     src.UserData.position(end + 1) = typecast(uint8(msg(9:12)), 'single');
+    src.UserData.position(end)
     src.UserData.command(end + 1) = typecast(uint8(msg(13:end)), 'single');
     src.UserData.counter = src.UserData.counter + 1;
     
